@@ -6,7 +6,9 @@ Legenda:
 
 Entity: /url:
 
-/endpoint/{variable} - description [role|method|request_body]
+/endpoint/{variable} - description [role|method|request_body_type]
+
+Example creates end point: http://host/url/endpoint/{variable}
 
 Category: /category:
 

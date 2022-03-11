@@ -8,15 +8,7 @@ import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.revo.myboard.group.dto.AuthortiyDTO;
 import com.revo.myboard.group.dto.CreateDTO;
@@ -32,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 
 @RestController
-@RequestMapping("/group")
+@RequestMapping("/groups")
 @ForAdmin
 @Validated
 @AllArgsConstructor
@@ -53,7 +45,7 @@ public class GroupController {
 		return ResponseEntity.ok(authorities);
 	}
 
-	@GetMapping("/all")
+	@GetMapping("")
 	public ResponseEntity<List<GroupDTO>> getAllGroups(HttpServletRequest request) {
 		log.info("User with ip: " + request.getRemoteAddr() + "getting all groups");
 		var groups = groupService.getAllGroups().stream().map(group -> GroupDTO.mapFromGroup(group)).toList();
@@ -69,7 +61,7 @@ public class GroupController {
 		return ResponseEntity.ok(group);
 	}
 
-	@PostMapping("/create")
+	@PostMapping("")
 	@ResponseStatus(HttpStatus.CREATED)
 	public void createGroup(@RequestBody @Valid CreateDTO createDTO, HttpServletRequest request) {
 		log.info("User with ip: " + request.getRemoteAddr() + " creating group with details: " + createDTO.toString());
@@ -78,14 +70,14 @@ public class GroupController {
 				+ createDTO.toString());
 	}
 
-	@DeleteMapping("/delete/{id}")
+	@DeleteMapping("{id}")
 	public void deleteGroupById(@PathVariable long id, HttpServletRequest request) {
 		log.info("User with ip: " + request.getRemoteAddr() + " deleting group with id: " + id);
 		groupService.deleteGroupById(id);
 		log.info("User with ip: " + request.getRemoteAddr() + " success deleted group with id: " + id);
 	}
 
-	@PatchMapping("/rename/{id}")
+	@PatchMapping("{id}")
 	public void renameGroupById(@PathVariable long id, @RequestBody @Valid NameDTO editNameDTO,
 			HttpServletRequest request) {
 		log.info("User with ip: " + request.getRemoteAddr() + " renaming group with id: " + id + " with details: "
@@ -95,7 +87,7 @@ public class GroupController {
 				+ " with details: " + editNameDTO.toString());
 	}
 
-	@PatchMapping("/change/{id}")
+  @PutMapping("{id}")
 	public void changeGroupAuthority(@PathVariable long id, @RequestBody @Valid AuthortiyDTO editAuthorityDTO,
 			HttpServletRequest request) {
 		log.info("User with ip: " + request.getRemoteAddr() + " changing authority of group with id: " + id

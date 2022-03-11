@@ -1,12 +1,8 @@
 package com.revo.myboard.group.dto;
 
-import com.revo.myboard.group.Group;
+import lombok.*;
 
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import com.revo.myboard.group.Group;
 
 /*
  * Created By Revo
@@ -19,13 +15,17 @@ import lombok.ToString;
 @ToString
 public class GroupDTO {
 
-	private long id;
-	private String name;
-	private String authority;
+  private long id;
+  private String name;
+  private String authority;
 
-	public static GroupDTO mapFromGroup(Group group) {
-		return GroupDTO.builder().id(group.getId()).authority(group.getAuthority().toString()).name(group.getName())
-				.build();
-	}
+  public static GroupDTO mapFromGroup(Group group) {
+    return GroupDTO
+        .builder()
+        .id(group.getId())
+        .authority(group.getAuthority().toString())
+        .name(group.getName())
+        .build();
+  }
 
 }
